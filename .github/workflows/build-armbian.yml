@@ -233,7 +233,7 @@ on:
           - yourname
 
 env:
-  TZ: America/New_York
+  TZ: Asia/Shanghai
   ROOTFS_SCRIPT: compile-kernel/tools/script/armbian_rootfs.sh
 
 jobs:
@@ -296,6 +296,18 @@ jobs:
           ln -sf /builder/build /home/runner/work/_actions/ophub/amlogic-s9xxx-armbian/main/build
           echo "status=success" >> ${GITHUB_OUTPUT}
 
+      - name: Create userpatches directory
+        id: customsoftware
+        working-directory: /builder
+        if: ${{ steps.down.outputs.status }} == 'success' && !cancelled()
+        run: |
+          mkdir -p build/userpatches
+          # 可以创建一个名为userpatches.sh的脚本，或者像下面一样 #chmod +x build/userpatches/userpatches.sh
+          curl -s -o build/userpatches/customize-image.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image.sh
+          #https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image.sh https://gkktg.oss-cn-hangzhou.aliyuncs.com/customize-image.sh
+          chmod +x build/userpatches/customize-image.sh
+          echo "status=success" >> ${GITHUB_OUTPUT}
+          
       - name: Compile Armbian [ ${{ inputs.set_release }} ]
         id: compile
         working-directory: /builder
