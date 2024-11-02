@@ -296,16 +296,16 @@ jobs:
           ln -sf /builder/build /home/runner/work/_actions/ophub/amlogic-s9xxx-armbian/main/build
           echo "status=success" >> ${GITHUB_OUTPUT}
 
-      - name: Create userpatches directory
-        id: customsoftware
+      - name: Create Userpatches Directory
+        id: lt-custom
         working-directory: /builder
         if: ${{ steps.down.outputs.status }} == 'success' && !cancelled()
         run: |
-          mkdir -p build/userpatches
-          # 可以创建一个名为userpatches.sh的脚本，或者像下面一样 #chmod +x build/userpatches/userpatches.sh
+          mkdir -p build/userpatches; mkdir -p build/userpatches/overlay
+          curl -s -o build/userpatches/overlay/auto_write_emmc.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/auto_write_emmc.sh
           curl -s -o build/userpatches/customize-image.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image.sh
           #https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image.sh https://gkktg.oss-cn-hangzhou.aliyuncs.com/customize-image.sh
-          chmod +x build/userpatches/customize-image.sh
+          #chmod +x build/userpatches/customize-image.sh
           echo "status=success" >> ${GITHUB_OUTPUT}
           
       - name: Compile Armbian [ ${{ inputs.set_release }} ]
