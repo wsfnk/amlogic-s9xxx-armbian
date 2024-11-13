@@ -303,8 +303,11 @@ jobs:
         if: ${{ steps.down.outputs.status }} == 'success' && !cancelled()
         run: |
           mkdir -p build/userpatches; mkdir -p build/userpatches/overlay
-          curl -s -o build/userpatches/overlay/auto_write_emmc.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/auto_write_emmc.sh
-          curl -s -o build/userpatches/customize-image.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image.sh
+          curl -s -o build/userpatches/overlay/armbian-install-lt.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian-install-lt.sh
+          curl -s -o build/userpatches/customize-image.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image-1113.sh
+          
+          #curl -s -o build/userpatches/overlay/auto_write_emmc.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/auto_write_emmc.sh
+          #curl -s -o build/userpatches/customize-image.sh https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image.sh
           #https://byy-ops-lt.oss-rg-china-mainland.aliyuncs.com/armbian_customize_image.sh https://gkktg.oss-cn-hangzhou.aliyuncs.com/customize-image.sh
           #chmod +x build/userpatches/customize-image.sh
           echo "status=success" >> ${GITHUB_OUTPUT}
